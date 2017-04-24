@@ -54,7 +54,10 @@ public class IPCrawler_qiaodm extends IPXpathCrawler implements CityIPCrawler{
 
     @Override
     public String getNextUrl() {
-        if(cur==0) return url;
+        if(cur==0){
+            cur=1;
+            return url;
+        }
         return "";
     }
 
