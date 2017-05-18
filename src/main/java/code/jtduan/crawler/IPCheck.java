@@ -1,5 +1,6 @@
 package code.jtduan.crawler;
 
+import code.jtduan.util.StarUtil;
 import code.jtduan.crawler.proxypool.IP;
 import code.jtduan.service.IPService;
 import code.jtduan.util.FileUtil;
@@ -21,7 +22,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,13 +30,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class IPCheck {
 
-    private static Logger logger= LoggerFactory.getLogger(IPCheck.class);
+    private static Logger logger = LoggerFactory.getLogger(IPCheck.class);
 
     private static BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(300);
     private static ThreadPoolExecutor executor = new ThreadPoolExecutor(50, 50, 20, TimeUnit.SECONDS, workQueue, new ThreadPoolExecutor.CallerRunsPolicy());
 
     public static void check(IP ip, String source) {
-        executor.execute(new CheckIpThread(ip,source));
+        executor.execute(new CheckIpThread(ip, source));
     }
 
     public static void checkIPFromFile(String file) {
@@ -44,7 +44,7 @@ public class IPCheck {
         for (String line : lines.split(System.getProperty("line.separator"))) {
             String ip = StringUtil.getMatch(line, "(\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3})");
             String port = StringUtil.getMatch(line, ":(\\d{1,5})\\b");
-            executor.execute(new CheckIpThread(new IP(ip, port),"file"));
+            executor.execute(new CheckIpThread(new IP(ip, port), "file"));
         }
     }
 
@@ -56,11 +56,11 @@ public class IPCheck {
     static class CheckIpThread implements Runnable {
         private IP ip;
         private String source;
-        private int[] ports = new int[]{8080, 808,80,3128,9999,9997};
+        private int[] ports = new int[] { 8080, 808, 80, 3128, 9999, 9997 };
 
-        public CheckIpThread(IP ip,String source) {
+        public CheckIpThread(IP ip, String source) {
             this.ip = ip;
-            this.source=source;
+            this.source = source;
         }
 
         @Override
@@ -68,14 +68,14 @@ public class IPCheck {
             if (ip.getPort() <= 0) {
                 for (int port : ports) {
                     if (checkHost(ip.getIp(), port)) {
-                        checkProxyIp(ip.getIp(),port,source);
+                        checkProxyIp(ip.getIp(), port, source);
                         return;
                     }
                 }
                 System.out.println("不可用：" + ip.getIp() + ":-1");
             } else {
                 if (checkHost(ip.getIp(), ip.getPort())) {
-                    checkProxyIp(ip.getIp(), ip.getPort(),source);
+                    checkProxyIp(ip.getIp(), ip.getPort(), source);
                 }
             }
         }
@@ -84,7 +84,7 @@ public class IPCheck {
         /**
          * 批量代理IP有效检测
          */
-        private static void checkProxyIp(String ip, int port,String source) {
+        private static void checkProxyIp(String ip, int port, String source) {
             try {
                 //Proxy类代理方法
                 URL url = null;
@@ -103,9 +103,10 @@ public class IPCheck {
                     Pattern p = Pattern.compile("我的ip地址.*?属于(.*?)。");
                     Matcher matcher = p.matcher(s);
                     if (matcher.find()) {
-                        IPService.add(ip,port,source,matcher.group(1));
-                        System.out.println("可用：" + ip + ":" + port + ";" + matcher.group(1));
-//                        FileUtil.appendFile("vaildIp.txt", ip + ":" + port + " ; " + matcher.group(1));
+                        if (IPService.add(ip, port, source, matcher.group(1))) {
+                            System.out.println("可用：" + ip + ":" + port + ";" + matcher.group(1)
+                                    + ":结果" + StarUtil.testStar2(proxy));
+                        }
                     }
                 }
             } catch (Exception e) {

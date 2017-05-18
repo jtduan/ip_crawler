@@ -2,6 +2,8 @@ package code.jtduan.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -59,13 +61,13 @@ public class HttpsUtil {
             OkHttpClient okHttpClient = new OkHttpClient()
                     .newBuilder()
                     .sslSocketFactory(sslSocketFactory, trustAllCerts)
-//                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("120.27.225.126",8888)))
-//                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("59.48.65.11",8000)))
+//                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1",6666)))
+                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.26.177",9001)))
 //                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("120.27.225.126",8888)))
 //                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("115.46.84.75",8123)))
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(10,TimeUnit.SECONDS)
-                    .writeTimeout(10,TimeUnit.SECONDS)
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(5,TimeUnit.SECONDS)
+                    .writeTimeout(5,TimeUnit.SECONDS)
                     .hostnameVerifier((a,b)->true)
                     .build();
             return okHttpClient;

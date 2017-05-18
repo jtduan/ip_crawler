@@ -33,7 +33,7 @@ public class IPController {
     public String getIp(String city){
         List<IP> ips = new ArrayList<>();
         ips.addAll(new IPCrawler_Zdaye().getIP("",city));
-        ips.addAll(new IPCrawler_superfast().getIP("",city));
+//        ips.addAll(new IPCrawler_superfast().getIP("",city));
         ips.addAll(new IPCrawler_Data5u().getIP("",city));
         ips.addAll(new IPCrawler_66ip().getIP("",city));
         ips.addAll(new IPCrawler_qiaodm().getIP("",city));

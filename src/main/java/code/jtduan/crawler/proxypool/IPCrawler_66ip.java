@@ -23,7 +23,7 @@ public class IPCrawler_66ip extends IPRegexCrawler implements CityIPCrawler{
 
     private int cur = 0;
 
-    private String[] url =new String[]{"http://www.66ip.cn/mo.php?sxb=&tqsl=1000&port=&export=&ktip=&sxa=&submit=%CC%E1++%C8%A1&textarea="};
+    private String[] url =new String[]{"http://www.66ip.cn/mo.php?sxb=%B1%B1%BE%A9&tqsl=1000&port=&export=&ktip=&sxa=&submit=%CC%E1++%C8%A1&textarea="};
 
     public IPCrawler_66ip(HtmlGeter htmlGeter) {
         super(htmlGeter);
@@ -40,10 +40,10 @@ public class IPCrawler_66ip extends IPRegexCrawler implements CityIPCrawler{
         return "(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}):(\\d{1,5})";
     }
 
-    public static void main(String[] args) {
-        List list = new IPCrawler_66ip(new SimpleHtmlGeter()).getIP("","南阳");
-        System.out.println(list.size());
-    }
+//    public static void main(String[] args) {
+//        List list = new IPCrawler_66ip(new SimpleHtmlGeter()).getIP("","南阳");
+//        System.out.println(list.size());
+//    }
 
     @Override
     public List<IP> getIP(String provinceName, String cityName) {
@@ -55,5 +55,9 @@ public class IPCrawler_66ip extends IPRegexCrawler implements CityIPCrawler{
         } catch (UnsupportedEncodingException e) {
             return Collections.emptyList();
         }
+    }
+
+    public static void main(String[] args) {
+        new IPCrawler_66ip().start();
     }
 }

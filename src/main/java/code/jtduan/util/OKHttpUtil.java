@@ -69,10 +69,11 @@ public class OKHttpUtil {
         return send(request);
     }
 
-    private static String send(Request request) {
+    public static String send(Request request) {
         try {
             Response response = client.newCall(request).execute();
-            return CharsetDetector.decode(response.body().bytes());
+            return response.body().string();
+//            return CharsetDetector.decode(response.body().bytes());
         } catch (IOException e) {
             logger.error(e.getMessage());
             return "";

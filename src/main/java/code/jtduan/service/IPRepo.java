@@ -12,6 +12,8 @@ public interface IPRepo extends CrudRepository<IP,Long> {
 
     public IP findByIpAndSource(String ip, String source);
 
+    public IP findByIp(String ip);
+
     @Query(value = "select ip from IP ip where ip.city like %:city%")
     public List<IP> findByCity(@Param("city") String city);
 }

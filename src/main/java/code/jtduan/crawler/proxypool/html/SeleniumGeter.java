@@ -28,8 +28,8 @@ public class SeleniumGeter implements HtmlGeter{
         capabilities.setCapability(CapabilityType.PROXY, proxy);
 
 //        capabilities.setJavascriptEnabled(true);
-//        WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:8910"), DesiredCapabilities.phantomjs());
-        WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), capabilities);
+        WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:8910"), DesiredCapabilities.phantomjs());
+//        WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), capabilities);
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("http://www.baidu.com/#ie=UTF-8&wd=ip");
@@ -42,8 +42,19 @@ public class SeleniumGeter implements HtmlGeter{
     @Override
     public String getHtml(String url) {
         try {
+            DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+            String PROXY = "127.0.0.1:1080";
+            Proxy proxy = new Proxy();
+            proxy.setHttpProxy(PROXY)
+                    .setFtpProxy(PROXY)
+                    .setSocksProxy(PROXY)
+                    .setSslProxy(PROXY);
+            proxy.setProxyType(Proxy.ProxyType.MANUAL);
+            capabilities.setCapability(CapabilityType.PROXY, proxy);
+
 //            WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), DesiredCapabilities.phantomjs());
-            WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:8910"), DesiredCapabilities.phantomjs());
+//            WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:8910"), DesiredCapabilities.phantomjs());
+            WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:8910"), capabilities);
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(url);
             Thread.sleep(2000);

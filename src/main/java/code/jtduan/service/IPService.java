@@ -20,22 +20,24 @@ public class IPService {
     IPRepo ipRepo_temp;
 
     @PostConstruct
-    public void  postConstruct(){
+    public void postConstruct() {
         this.ipRepo = ipRepo_temp;
     }
 
-    public void add(IP ip){
+    public void add(IP ip) {
         ipRepo.save(ip);
     }
 
-    public static void add(String ip, int port, String source,String city) {
-        if(ipRepo.findByIpAndSource(ip+":"+port,source)==null) {
-            IP entity = new IP(ip + ":" + port, source,city);
+    public static boolean add(String ip, int port, String source, String city) {
+        if (ipRepo.findByIp(ip+":"+port) == null) {
+//        if(ipRepo.findByIpAndSource(ip+":"+port,source)==null) {
+            IP entity = new IP(ip + ":" + port, source, city);
             entity.setCreate_time(new Date());
             ipRepo.save(entity);
-        }
-        else{
-            System.out.println("重复");
+            return true;
+        } else {
+            System.out.println("IP重复:" + ip + ":" + port);
+            return false;
         }
     }
 
