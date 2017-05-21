@@ -46,7 +46,11 @@ public class IPCrawler_Zdaye extends IPRegexCrawler implements CityIPCrawler{
         if(curCity==cities.length){
             return "";
         }
-        String next = url[0].replace("${port}",ports[curPort]).replace("${city}",cities[curCity]);
+        String next = null;
+        try {
+            next = url[0].replace("${port}",ports[curPort]).replace("${city}", URLEncoder.encode(cities[curCity],"GBK"));
+        } catch (UnsupportedEncodingException e) {
+        }
         return next;
     }
 
@@ -67,6 +71,10 @@ public class IPCrawler_Zdaye extends IPRegexCrawler implements CityIPCrawler{
     public static void main(String[] args) {
         List l = new IPCrawler_Zdaye(new SeleniumGeter()).getIP("","信阳");
         System.out.println(l.size());
+//        try {
+//            System.out.println(URLEncoder.encode("广东","GBK"));
+//        } catch (UnsupportedEncodingException e) {
+//        }
     }
 
     @Override

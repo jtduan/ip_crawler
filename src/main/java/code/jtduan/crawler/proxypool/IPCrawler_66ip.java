@@ -31,7 +31,10 @@ public class IPCrawler_66ip extends IPRegexCrawler implements CityIPCrawler{
 
     @Override
     public String getNextUrl() {
-        if(cur==0) return url[0];
+        if(cur==0){
+            cur=1;
+            return url[0];
+        }
         return "";
     }
 

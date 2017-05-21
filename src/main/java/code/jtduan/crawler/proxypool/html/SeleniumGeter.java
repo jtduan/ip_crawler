@@ -43,14 +43,14 @@ public class SeleniumGeter implements HtmlGeter{
     public String getHtml(String url) {
         try {
             DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-            String PROXY = "127.0.0.1:1080";
-            Proxy proxy = new Proxy();
-            proxy.setHttpProxy(PROXY)
-                    .setFtpProxy(PROXY)
-                    .setSocksProxy(PROXY)
-                    .setSslProxy(PROXY);
-            proxy.setProxyType(Proxy.ProxyType.MANUAL);
-            capabilities.setCapability(CapabilityType.PROXY, proxy);
+//            String PROXY = "127.0.0.1:1080";
+//            Proxy proxy = new Proxy();
+//            proxy.setHttpProxy(PROXY)
+//                    .setFtpProxy(PROXY)
+//                    .setSocksProxy(PROXY)
+//                    .setSslProxy(PROXY);
+//            proxy.setProxyType(Proxy.ProxyType.MANUAL);
+//            capabilities.setCapability(CapabilityType.PROXY, proxy);
 
 //            WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), DesiredCapabilities.phantomjs());
 //            WebDriver driver = new RemoteWebDriver(new URL("http://127.0.0.1:8910"), DesiredCapabilities.phantomjs());
